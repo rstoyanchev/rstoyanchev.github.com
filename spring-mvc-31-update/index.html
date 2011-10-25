@@ -75,91 +75,183 @@
 </div>
 
 <div id="slides" class="offscreen" style="display:none;">
-<div class="slide" data-transition="none"><div class="content subsection" ref="intro/slides/1">
-<h1><strong>Spring MVC 3.1 Update</strong></h1>
+<div class="slide" data-transition="none">
+  <div class="content subsection" ref="intro/slides/1">
+<h1>Spring MVC 3.1 Update</h1>
+
+<br><br>
+
 
 <h2>Rossen Stoyanchev</h2>
 
-<h3><em>SpringSource, VMware</em></h3></div>
-</div><div class="slide" data-transition="none"><div class="content subsection incremental" ref="intro/slides/2">
-<h1>About The Speaker</h1>
-
-<ul>
-<li>Staff Engineer SpringSource, VMware</li>
-<li>Spring MVC, Spring Web Flow committer</li>
-<li>Teach and consult, Spring Projects</li>
-<li>Spring Web course author</li>
-<li>NYC area</li>
-</ul>
+<h3><em>SpringSource, VMware</em></h3></br>
+</br>
 </div>
-</div><div class="slide" data-transition="none"><div class="content subsection bullets smaller" ref="config/slides/1">
-<h1>Agenda</h1>
+</div><div class="slide" data-transition="none"><div class="content subsection smaller bullets" ref="intro/slides/2">
+<h1>Topics</h1>
 
 <ul>
-<li><strong>Code-based Config</strong></li>
-<li>@MVC Support Classes</li>
-<li>Consumes &amp; Produces</li>
-<li>URI Variables</li>
-<li>Redirect Scenarios</li>
-<li>UriComponentsBuilder</li>
+<li>Java Config</li>
+<li>@MVC Infrastructure</li>
+<li>Consumes/Produces</li>
+<li>URI Vars</li>
+<li>Redirect &amp; Flash Attributes</li>
+<li>URI Building</li>
 <li>Multipart Requests</li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="config/slides/2">
-<h1>The MVC Namespace</h1>
+</div><div class="slide" data-transition="none"><div class="content subsection" ref="config/slides/1">
+<h1>MVC Java Config</h1></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="config/slides/2">
+<h1>Spring MVC</h1>
+
+<h1>Configuration Options</h1>
 
 <ul>
-<li>Introduced in Spring 3.0</li>
-<li>More opinionated than built-in defaults</li>
-<li>Aims to simplify typical configuration</li>
-</ul>
-
-
-<p class="notes">A concise way to register: Interceptors, Converters, Formatters, Resource handling, View controllers, and more...</p></div>
-</div><div class="slide" data-transition="none"><div class="content" ref="config/slides/3">
-<h1>Example</h1>
-
-<pre class="sh_xml"><code>
-  &lt;mvc:annotation-driven /&gt;
-
-  &lt;mvc:interceptors&gt;
-      &lt;ref bean="log4jInterceptor"/&gt;
-  &lt;/mvc:interceptors&gt;
-
-  &lt;mvc:resources mapping="/resources/**" 
-        location="/resources/" /&gt;
-
-  &lt;mvc:default-servlet-handler /&gt;    </code></pre></div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="config/slides/4">
-<h1>Ease-of-Use vs Control:</h1>
-
-<h1>MVC Namespace</h1>
-
-<p class="notes">Ask how many people use the namespace? Probably under 50% ...</p>
-
-<ul>
-<li>How do I see actual configuration?</li>
-<li>How do I change bean property ... ?</li>
-<li>No transparency</li>
-<li>No path from simple to advanced</li>
+<li>(1) Out-of-the-box defaults</li>
+<li><em>i.e. empty <code>&lt;name&gt;-servlet.xml</code></em></li>
+<li>(2) MVC Namespace</li>
+<li><code>&lt;mvc:annotation-driven /&gt;</code> and friends</li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="config/slides/5">
-<h1>Spring MVC Java Config</h1>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="config/slides/3">
+<h1>Out-Of-The-Box Defaults</h1>
+
+<h2>(<code>DispatcherServlet.properties</code>)</h2>
+
+<ul>
+<li>Minimal, neutral, flexible</li>
+<li>A foundation</li>
+<li>Can be verbose for common tasks</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="config/slides/4">
+<h1>MVC Namespace</h1>
+
+<h2><em>(Added in Spring 3.0)</em></h2>
+
+<ul>
+<li>More opinionated</li>
+<li>Targets the 80%</li>
+<li>A starting point</li>
+<li>Minimizes boilerplate</li>
+<li>Transparency, flexibility .. ?</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="config/slides/5">
+<h1>MVC Java Config</h1>
 
 <h2>(Spring 3.1)</h2>
 
 <ul>
-<li>Code-based alternative to namespace</li>
-<li>Not a one-for-one "translation"</li>
-<li>Match the benefits of the namespace</li>
-<li>Address the shortcomings</li>
+<li>Designed with this experience in mind</li>
+<li>Transparency is key in MVC config</li>
+<li>So is flexibility</li>
+<li>So is a having simple starting point!</li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content smaller" ref="config/slides/6">
-<h1>Basic MVC Java Config</h1>
+</div><div class="slide" data-transition="none"><div class="content small" ref="config/slides/6">
+<h1>A Simple Starting Point</h1>
 
-<h1>Example</h1>
+<pre class="sh_java"><code>
+    // Equivalent to &lt;mvc:annotation:driven/&gt;
+
+    @EnableWebMvc
+    @Configuration
+    public class WebConfig {
+
+    }</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content small" ref="config/slides/7">
+<h1>A Simple Starting Point</h1>
+
+<pre class="sh_java"><code>
+    // Equivalent to &lt;mvc:annotation:driven/&gt;
+
+    @EnableWebMvc   // &lt;-- What's behind ? 
+    @Configuration
+    public class WebConfig {
+
+    }</code></pre></div>
+</div><div class="slide" data-transition="scrollLeft"><div class="content small" ref="config/slides/8">
+<h1><code>@EnableWebMvc</code></h1>
+
+<pre class="sh_java"><code>
+    @Retention(RetentionPolicy.RUNTIME)
+    @Import(DelegatingWebMvcConfiguration.class)
+    @Target(ElementType.TYPE)
+    public @interface EnableWebMvc {
+
+    }</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content small" ref="config/slides/9">
+<h1><code>@EnableWebMvc</code></h1>
+
+<pre class="sh_java"><code>
+
+    @Import(DelegatingWebMvcConfiguration.class)
+
+    public @interface EnableWebMvc {
+
+    }</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="config/slides/10">
+<h1>Config Customizations</h1>
+
+<ul>
+<li>Implement <a href="http://static.springsource.org/spring/docs/3.1.0.RC1/javadoc-api/org/springframework/web/servlet/config/annotation/WebMvcConfigurer.html"><code>WebMvcConfigurer</code></a></li>
+<li>Or extend <a href="http://static.springsource.org/spring/docs/3.1.0.RC1/javadoc-api/org/springframework/web/servlet/config/annotation/WebMvcConfigurerAdapter.html"><code>WebMvcConfigurerAdapter</code></a></li>
+<li>Simple, discoverable config API</li>
+<li>Matches MVC namespace</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content smaller" ref="config/slides/11">
+<h1>Config Customization Example</h1>
+
+<pre class="sh_java"><code>
+@EnableWebMvc
+@Configuration
+public class WebConfig {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content smaller" ref="config/slides/12">
+<h1>Config Customization Example</h1>
+
+<pre class="sh_java"><code>
+@EnableWebMvc
+@Configuration
+public class WebConfig extends WebMvcConfigurerAdapter {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content smaller" ref="config/slides/13">
+<h1>Config Customization Example</h1>
 
 <pre class="sh_java"><code>
 @EnableWebMvc
@@ -167,52 +259,176 @@
 public class WebConfig extends WebMvcConfigurerAdapter {
 
   @Override
-  public void addFormatters(FormatterRegistry reg){
-      // ...
+  protected void addFormatters(FormatterRegistry registry) {
+    // ...
+  }
+
+
+
+
+
+
+
+
+
+
+
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content smaller" ref="config/slides/14">
+<h1>Config Customizations</h1>
+
+<pre class="sh_java"><code>
+@EnableWebMvc
+@Configuration
+public class WebConfig extends WebMvcConfigurerAdapter {
+
+  @Override
+  protected void addFormatters(FormatterRegistry registry) {
+    // ...
   }
 
   @Override
   public void addInterceptors(InterceptorRegistry reg){
-      // Equivalent to &lt;mvc:interceptors&gt;
+    // Equivalent to &lt;mvc:interceptors&gt;
   }
 
-  // Override more base class methods as needed...
+
+
+
+
 
 }</code></pre></div>
-</div><div class="slide" data-transition="none"><div class="content smaller" ref="config/slides/7">
-<h1>Load Java config from web.xml</h1>
-
-<pre class="sh_xml"><code>
-  &lt;!-- Detect @Configuration classes in a package --&gt;
-
-  &lt;context-param&gt;
-    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
-    &lt;param-value&gt;org.example.somepackage&lt;/param-value&gt;
-  &lt;/context-param&gt;
-
-  &lt;!-- Use ApplicationContext for Java config --&gt;
-
-  &lt;context-param&gt;
-    &lt;param-name&gt;contextClass&lt;/param-name&gt;
-    &lt;param-value&gt;
-        org.springframework.web.context.support.
-          AnnotationConfigWebApplicationContext
-    &lt;/param-value&gt;
-  &lt;/context-param&gt;</code></pre></div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="config/slides/8">
-<h1>Why MVC Java Config?</h1>
-
-<ul>
-<li>Higher level configuration API</li>
-<li>Like MVC namespace</li>
-<li>But much easier to see underlying config</li>
-<li>A path from simple to advanced</li>
-</ul>
-</div>
-</div><div class="slide" data-transition="none"><div class="content smaller" ref="config/slides/9">
-<h1>Advanced Customization Example</h1>
+</div><div class="slide" data-transition="none"><div class="content smaller" ref="config/slides/15">
+<h1>Config Customizations</h1>
 
 <pre class="sh_java"><code>
+@EnableWebMvc
+@Configuration
+public class WebConfig extends WebMvcConfigurerAdapter {
+
+  @Override
+  protected void addFormatters(FormatterRegistry registry) {
+    // ...
+  }
+
+  @Override
+  public void addInterceptors(InterceptorRegistry reg){
+    // Equivalent to &lt;mvc:interceptors&gt;
+  }
+
+  @Override
+  public void addViewControllers(ViewControllerRegistry reg) {
+    // Equivalent to &lt;mvc:view-controller&gt;
+  }
+
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="config/slides/16">
+<h1>Advanced Customizations</h1>
+
+<ul>
+<li>Remove <a href="http://static.springsource.org/spring/docs/3.1.0.RC1/javadoc-api/org/springframework/web/servlet/config/annotation/EnableWebMvc.html"><code>@EnableWebMvc</code></a></li>
+<li>Extend <a href="http://static.springsource.org/spring/docs/3.1.0.RC1/javadoc-api/org/springframework/web/servlet/config/annotation/WebMvcConfigurationSupport.html"><code>WebMvcConfigurationSupport</code></a></li>
+<li>Override the same methods as in <code>WebMvcConfigurer</code></li>
+<li>Override <code>@Bean</code> methods</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content smaller" ref="config/slides/17">
+<h1>Advanced Customizations</h1>
+
+<pre class="sh_java"><code>
+@EnableWebMvc
+@Configuration
+public class WebConfig extends WebMvcConfigurerAdapter {
+
+  @Override
+  public void addInterceptors(InterceptorRegistry reg){
+    // Equivalent to &lt;mvc:interceptors&gt;
+  }
+
+
+
+
+
+
+
+
+  }
+
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content smaller" ref="config/slides/18">
+<h1>Advanced Customizations</h1>
+
+<pre class="sh_java"><code>
+
+@Configuration
+public class WebConfig extends WebMvcConfigurerAdapter {
+
+  @Override
+  public void addInterceptors(InterceptorRegistry reg){
+    // Equivalent to &lt;mvc:interceptors&gt;
+  }
+
+
+
+
+
+
+
+
+  }
+
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content smaller" ref="config/slides/19">
+<h1>Advanced Customizations</h1>
+
+<pre class="sh_java"><code>
+
+@Configuration
+public class WebConfig extends WebMvcConfigurationSupport {
+
+  @Override
+  public void addInterceptors(InterceptorRegistry reg){
+    // Equivalent to &lt;mvc:interceptors&gt;
+  }
+
+
+
+
+
+
+
+
+  }
+
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content smaller" ref="config/slides/20">
+<h1>Advanced Customizations</h1>
+
+<pre class="sh_java"><code>
+
+@Configuration
+public class WebConfig extends WebMvcConfigurationSupport {
+
+  @Override
+  public void addInterceptors(InterceptorRegistry reg){
+    // Equivalent to &lt;mvc:interceptors&gt;
+  }
+
+  @Override
+  @Bean
+  public RequestMappingHandlerAdapter 
+                requestMappingHandlerAdapter() {
+
+
+
+  }
+
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content smaller" ref="config/slides/21">
+<h1>Advanced Customizations</h1>
+
+<pre class="sh_java"><code>
+
 @Configuration
 public class WebConfig extends WebMvcConfigurationSupport {
 
@@ -228,77 +444,63 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
       // Create or let "super" create and customize 
       // RequestMappingHandlerAdapter ...
-
   }
+
 }</code></pre></div>
 </div><div class="slide" data-transition="none">
-  <div class="content code" ref="config/slides/10">
-<h1>Demo</h1>
+  <div class="content" ref="config/slides/22">
+<h2>For more on this topic attend:</h2>
 
-<p><a href="https://github.com/SpringSource/greenhouse"><strong>https://github.com/SpringSource/greenhouse</strong></a><br>
-<em>See package:</em>
-<a href="https://github.com/SpringSource/greenhouse/tree/master/src/main/java/com/springsource/greenhouse/config">com.springsource.greenhouse.config</a></br>
-
-<p><a href="https://github.com/rstoyanchev/spring-mvc-31-demo"><strong>https://github.com/rstoyanchev/spring-mvc-31-demo</strong></a><br>
-<em>See package:</em>
-<a href="https://github.com/rstoyanchev/spring-mvc-31-demo/tree/master/src/main/java/org/springframework/samples/mvc31/config">org.springframework.samples.mvc31.config</a></br></p>
-</p>
-</div>
-</div><div class="slide" data-transition="none">
-  <div class="content" ref="config/slides/11">
-<h2>For more on</h2>
-
-<h2><strong>Spring MVC Java Config</strong></h2>
-
-<h2>attend this session:</h2>
-
-<br><br><br>
+<br><br>
 
 
-<h2><a href="http://www.springone2gx.com/conference/chicago/2011/10/session?id=24006"><strong>Configuration Enhancements in Spring 3.1</strong></a></h2>
+<h2><a href="http://www.springone2gx.com/conference/chicago/2011/10/session?id=24006">"Configuration Enhancements in Spring 3.1"</a></h2>
 
-<p>Wednesday, 12:45</p></br>
+<br>
+
+
+<p>Today (Wed) @ 12:45</p></br>
 </br>
 </br></div>
-</div><div class="slide" data-transition="none"><div class="content subsection bullets smaller" ref="infrastructure/slides/1">
-<h1>Agenda</h1>
-
-<ul>
-<li>Code-based Config</li>
-<li><strong>@MVC Support Classes</strong></li>
-<li>Consumes &amp; Produces</li>
-<li>URI Variables</li>
-<li>Redirect Scenarios</li>
-<li>UriComponentsBuilder</li>
-<li>Multipart Requests</li>
-</ul>
-</div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="infrastructure/slides/2">
-<h1>@Controllers</h1>
+</div><div class="slide" data-transition="none"><div class="content subsection" ref="infrastructure/slides/1">
+<h1>@MVC Infrastructure</h1></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="infrastructure/slides/2">
+<h1>@MVC</h1>
 
 <ul>
 <li>Introduced in Spring 2.5</li>
-<li>Expanded for REST in 3.0</li>
-<li>Replaced controller class hierarchy</li>
-<li>Overall <strong>very</strong> successful</li>
+<li>Expanded for REST in Spring 3.0</li>
+<li>Overall very successful</li>
+<li>Does more</li>
+<li>More flexible, etc.</li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="infrastructure/slides/3">
-<h1>@MVC Support Classes</h1>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="infrastructure/slides/3">
+<h1>@MVC Infrastructure</h1>
 
 <ul>
-<li>Gradually evolved</li>
-<li>Not very customizable</li>
-<li>Many a JIRA request for flexibility</li>
-<li>Hindered by some legacy design</li>
+<li>We're talking about...</li>
+<li><code>DefaultAnnotaionHandlerMapping</code></li>
+<li><code>AnnotationMethodHandlerAdapter</code></li>
+<li><code>AnnotationMethodHandlerExceptionResolver</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="infrastructure/slides/4">
+<h1>@MVC Infrastructure</h1>
+
+<ul>
+<li>Replaced controller class hierarchy</li>
+<li>Not as easy to customize</li>
+<li><em>Search JIRA for above class names!</em></li>
+<li>Some legacy quirks</li>
 </ul>
 
 
-<p class="notes">Duplicated handler method selection, can't split HTTP methods across controllers, etc.</p></div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="infrastructure/slides/4">
-<h1>New, Spring 3.1</h1>
+<p class="notes">No concept of selecting a method (rather than a controller) resulting in duplicated handler method selection, inability to split HTTP methods across controllers, etc.</p></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="infrastructure/slides/5">
+<h1>New @MVC Infrastructure</h1>
 
-<h1>@MVC Support Classes</h1>
+<h2>(Spring 3.1)</h2>
 
 <ul>
 <li><code>RequestMappingHandlerMapping</code></li>
@@ -306,143 +508,275 @@ public class WebConfig extends WebMvcConfigurationSupport {
 <li><code>ExceptionHandlerExceptionResolver</code></li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content center" ref="infrastructure/slides/5">
-<p><img src="./file/infrastructure/support-classes.png" alt="support-classes.png"/></p></div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="infrastructure/slides/6">
-<h1>@MVC Configuration</h1>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="infrastructure/slides/6">
+<h1>I.e.</h1>
 
 <ul>
-<li><strong>New</strong> support classes "on"</li>
-<li>... if using MVC namespace, Java config</li>
-<li><strong>Old</strong> support classes still the default</li>
-<li>... if not using namespace or Java config</li>
-<li>... no support for new features</li>
+<li><strong><code>@RequestMapping</code></strong> <code>HandlerMapping</code></li>
+<li><strong><code>@RequestMapping</code></strong> <code>HandlerAdapter</code></li>
+<li><strong><code>@ExceptionHandler</code></strong> <code>ExceptionResolver</code></li>
 </ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="infrastructure/slides/7">
+<h1>New Abstractions</h1>
 
+<ul>
+<li><code>HandlerMethod</code></li>
+<li><code>HandlerMethodArgumentResolver</code></li>
+<li><code>HandlerMethodReturnValueHandler</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="infrastructure/slides/8">
+<h1>What Is Possible Now</h1>
 
-<p class="notes">Use of namespace is by choice and represents the recommended configuration</p></div>
-</div><div class="slide" data-transition="none"><div class="content center" ref="infrastructure/slides/7">
+<ul>
+<li>Select a controller method</li>
+<li>Customize all argument types</li>
+<li>And all return values</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content center" ref="infrastructure/slides/9">
+<p><img src="./file/infrastructure/support-classes.png" alt="support-classes.png"/></p></div>
+</div><div class="slide" data-transition="none"><div class="content center" ref="infrastructure/slides/10">
 <p><img src="./file/infrastructure/resolver-handler-implementations.png" alt="resolver-handler-implementations.png"/></p></div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="infrastructure/slides/8">
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="infrastructure/slides/11">
 <h1><strong>HandlerMapping</strong> Customizations</h1>
 
 <ul>
 <li>Provide custom <code>RequestCondition</code></li>
-<li>Build <code>RequestMappingInfo</code> from
-
-<ul>
-<li>custom annotations</li>
-<li>anything (e.g. Groovy DSL)</li>
-</ul>
-</li>
+<li>Build <code>RequestMappingInfo</code> from</li>
+<li>... custom annotations</li>
+<li>... or anything else</li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="infrastructure/slides/9">
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="infrastructure/slides/12">
 <h1><strong>HandlerAdapter</strong> Customizations</h1>
 
 <ul>
-<li>Custom argument &amp; return value types</li>
-<li>Extend built-in argument resolvers</li>
-<li>Extend built-in return value handlers</li>
+<li>Plug custom argument &amp; return values</li>
+<li>Extend built-in arguments &amp; return values</li>
 <li>Design your own method signature</li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content code" ref="infrastructure/slides/10">
-<h1>Demo</h1>
-
-<p><a href="https://github.com/rstoyanchev/spring-mvc-31-demo">https://github.com/rstoyanchev/spring-mvc-31-demo</a></p></div>
-</div><div class="slide" data-transition="none"><div class="content subsection bullets smaller" ref="consumes-produces/slides/1">
-<h1>Agenda</h1>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="infrastructure/slides/13">
+<h1>Configuration</h1>
 
 <ul>
-<li>Code-based Config</li>
-<li>@MVC Support Classes</li>
-<li><strong>Consumes &amp; Produces</strong></li>
-<li>URI Variables</li>
-<li>Redirect Scenarios</li>
-<li>UriComponentsBuilder</li>
-<li>Multipart Requests</li>
+<li><strong>New</strong> support classes are "on"</li>
+<li>... if using MVC namespace, Java config</li>
+<li><strong>Old</strong> support classes are "on"</li>
+<li>... with out-of-the-box defaults</li>
+</ul>
+
+
+<p class="notes">Use of namespace is by choice and represents the recommended configuration</p></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="infrastructure/slides/14">
+<h1>That Means...</h1>
+
+<ul>
+<li>With MVC namespace you're automatically using the new classes</li>
+<li>For explicit config you need to switch to the new classes</li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content incremental smaller" ref="consumes-produces/slides/2">
-<h1>Consumes &amp; Produces</h1>
+</div><div class="slide" data-transition="none"><div class="content" ref="infrastructure/slides/15">
+<h1>Demo</h1>
 
-<h1>Conditions</h1>
+<p><a href="https://github.com/rstoyanchev/spring-mvc-31-demo"><strong>https://github.com/rstoyanchev/spring-mvc-31-demo</strong></a></p></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="infrastructure/slides/16">
+<ul>
+<li>For the Remaining Slides We Assume</li>
+<li>New Infrastructure Is In Use!</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content subsection" ref="consumes-produces/slides/1">
+<h1>Consumes/Produces</h1></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental bullets small" ref="consumes-produces/slides/2">
+<h1>Consumes</h1>
 
 <pre class="sh_java"><code>
-    @RequestMapping(value="/path"
-                    method=RequestMethod.POST, 
-                    consumes="application/json")
+@ResponseBody
+@RequestMapping(method=RequestMethod.POST)
+
+public String save(@RequestBody JavaBean javaBean) {
+
+}</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental bullets small" ref="consumes-produces/slides/3">
+<h1>Consumes</h1>
+
+<pre class="sh_java"><code>
+@ResponseBody
+@RequestMapping(method=RequestMethod.POST, 
+                consumes="application/json")
+public String save(@RequestBody JavaBean javaBean) {
+
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="consumes-produces/slides/4">
+<h1>Header Condition</h1>
+
+<ul>
+<li><code>headers="Content-Type=text/plain"</code></li>
+<li>is converted to <code>consumes="text/plain"</code></li>
+<li>Same semantics</li>
+<li>More expressive</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="fade"><div class="content incremental bullets small" ref="consumes-produces/slides/5">
+<h1>Produces</h1>
+
+<pre class="sh_java"><code>
     @ResponseBody
-    public String save(@RequestBody JavaBean javaBean) {
-        // ..
+    @RequestMapping(method=RequestMethod.GET
+
+    public JavaBean get() {
+
+    }</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content incremental bullets small" ref="consumes-produces/slides/6">
+<h1>Produces</h1>
+
+<pre class="sh_java"><code>
+    @ResponseBody
+    @RequestMapping(method=RequestMethod.GET, 
+                    produces="application/json") 
+    public JavaBean get() {
+
+    }</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="consumes-produces/slides/7">
+<h1>Header Condition</h1>
+
+<ul>
+<li><code>headers="Accept=text/plain"</code></li>
+<li>is converted to <code>produces="text/plain"</code></li>
+<li>Semantics aligned with JAX-RS</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="consumes-produces/slides/8">
+<h1><code>Produces</code> Semantics</h1>
+
+<ul>
+<li>Used not only for mapping</li>
+<li>Influences actual content type written</li>
+<li>Accepts more general media type</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets small" ref="consumes-produces/slides/9">
+<h1>For Example</h1>
+
+<ul>
+<li>Request for <code>"text/*"</code></li>
+<li>Matches to method <code>produces = "text/plain"</code></li>
+<li>So does a request for <code>"*/*"</code></li>
+<li>And so does a request without <code>Accept</code> header</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets small" ref="consumes-produces/slides/10">
+<h1>Another Example</h1>
+
+<ul>
+<li><code>produces = "application/json"</code></li>
+<li>Request for <code>"*/*"</code></li>
+<li>Content type written is <code>"application/json"</code></li>
+<li>Not any configured message converter</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets small" ref="consumes-produces/slides/11">
+<h1>Yet Another Example</h1>
+
+<ul>
+<li><code>produces = "text/plain;charset=UTF-8"</code></li>
+<li>Request for <code>"text/plain"</code></li>
+<li>Content type written is <code>"text/plain;charset=UTF-8"</code></li>
+<li>Matches producible type</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none">
+  <div class="content incremental small" ref="consumes-produces/slides/12">
+<h1>What About?</h1>
+
+<br><br>
+
+
+<h2>Request for <code>"*/*"</code> (or without Accept) header</h2>
+
+<pre class="sh_java"><code>
+    @RequestMapping 
+    public String get(Model model) {
+
+
     }
 
-    @RequestMapping(value="/path"
-                    method=RequestMethod.GET, 
-                    produces="application/json") 
     @ResponseBody
+    @RequestMapping(produces="application/json") 
     public JavaBean get() {
-        // ..
-    }</code></pre></div>
-</div><div class="slide" data-transition="none"><div class="content incremental small" ref="consumes-produces/slides/3">
-<h1>Media Type Header Conditions:</h1>
 
-<h1>Auto-converted</h1>
-
-<ul>
-<li><code>headers="Content-Type=text/plain"</code>
-
-<ul>
-<li>becomes <code>consumes="text/plain"</code></li>
-</ul>
-</li>
-<li><code>headers="Accept=text/plain"</code>
-
-<ul>
-<li>becomes <code>produces="text/plain"</code></li>
-</ul>
-</li>
-</ul>
+    }</code></pre></br>
+</br>
 </div>
-</div><div class="slide" data-transition="none"><div class="content incremental small" ref="consumes-produces/slides/4">
-<h1>Consumes &amp; Produces</h1>
+</div><div class="slide" data-transition="none">
+  <div class="content incremental small" ref="consumes-produces/slides/13">
+<h1>What About?</h1>
 
-<h1>Semantics</h1>
+<br><br>
 
-<ul>
-<li>Aligned with JAX-RS</li>
-<li><code>produces</code> influences actual content type used</li>
-<li>Possible to request more general media type</li>
-<li>For example request for <code>"text/*"</code> or <code>"*/*"</code>
-matches to <code>@RequestMapping(produces = "text/plain"</code>)</li>
-</ul>
+
+<h2>Request for <code>"*/*"</code> (or without Accept) header</h2>
+
+<pre class="sh_java"><code>
+    @RequestMapping 
+    public String get(Model model) {
+        // This method wins
+
+    }
+
+    @ResponseBody
+    @RequestMapping(produces="application/json") 
+    public JavaBean get() {
+
+    }</code></pre></br>
+</br>
 </div>
-</div><div class="slide" data-transition="none"><div class="content code" ref="consumes-produces/slides/5">
+</div><div class="slide" data-transition="none">
+  <div class="content incremental small" ref="consumes-produces/slides/14">
+<h1>What About?</h1>
+
+<br><br>
+
+
+<h2>Request for <code>"*/*"</code> (or without Accept) header</h2>
+
+<pre class="sh_java"><code>
+    @RequestMapping 
+    public String get(Model model) {
+        // This method wins
+        // i.e. method matching to '*/*' prefered
+    }
+
+    @ResponseBody
+    @RequestMapping(produces="application/json") 
+    public JavaBean get() {
+
+    }</code></pre></br>
+</br>
+</div>
+</div><div class="slide" data-transition="none">
+  <div class="content" ref="consumes-produces/slides/15">
 <h1>Demo</h1>
 
-<p><a href="https://github.com/SpringSource/spring-mvc-showcase">https://github.com/SpringSource/spring-mvc-showcase</a></p>
+<br><br>
 
-<p><a href="https://github.com/SpringSource/spring-mvc-showcase/blob/master/src/main/java/org/springframework/samples/mvc/mapping/MappingController.java"><code>MappingController.java</code></a><br>
-<a href="https://github.com/SpringSource/spring-mvc-showcase/blob/master/src/main/java/org/springframework/samples/mvc/response/ResponseController.java"><code>ResponseController.java</code></a></br></p>
-</div>
-</div><div class="slide" data-transition="none"><div class="content subsection bullets smaller" ref="uri-variables/slides/1">
-<h1>Agenda</h1>
 
-<ul>
-<li>Code-based Config</li>
-<li>@MVC Support Classes</li>
-<li>Consumes &amp; Produces</li>
-<li><strong>URI Variables</strong></li>
-<li>Redirect Scenarios</li>
-<li>UriComponentsBuilder</li>
-<li>Multipart Requests</li>
-</ul>
-</div>
+<p><a href="https://github.com/SpringSource/spring-mvc-showcase"><strong>https://github.com/SpringSource/spring-mvc-showcase</strong></a></p>
+
+<br>
+
+
+<p><a href="https://github.com/SpringSource/spring-mvc-showcase/blob/master/src/main/java/org/springframework/samples/mvc/mapping/MappingController.java">MappingController.java</a><br><br>
+<a href="https://github.com/SpringSource/spring-mvc-showcase/blob/master/src/main/java/org/springframework/samples/mvc/response/ResponseController.java">ResponseController.java</a></br></br>
+</p>
+</br></br></br></div>
+</div><div class="slide" data-transition="none"><div class="content subsection" ref="uri-variables/slides/1">
+<h1>URI Variables</h1></div>
 </div><div class="slide" data-transition="none"><div class="content small" ref="uri-variables/slides/2">
-<h1>URI Variables In</h1>
-
-<h1>Data Binding</h1>
+<h1>Data Binding &amp; URI Variables</h1>
 
 <pre class="sh_java"><code>
 
@@ -455,354 +789,627 @@ public void search(Person person) {
     // person.getLastName()  is populated
 
 }</code></pre></div>
-</div><div class="slide" data-transition="none"><div class="content small" ref="uri-variables/slides/3">
-<h1>URI Variable</h1>
-
-<h1>To Instantiate Model Attribute</h1>
-
-<pre class="sh_java"><code>
-  // 1. URI variable name = model attr name
-  // 2. Registered Converter&lt;String, Account&gt;
-
-  @RequestMapping(value="/{account}", 
-                  method = RequestMethod.PUT)
-
-  public String update(Account account) {
-
-    // ...
-
-  }</code></pre></div>
-</div><div class="slide" data-transition="none"><div class="content code" ref="uri-variables/slides/4">
-<h1>Demo</h1>
-
-<p><a href="https://github.com/rstoyanchev/spring-mvc-31-demo">https://github.com/rstoyanchev/spring-mvc-31-demo</a></p>
-
-<p><strong>See package:</strong><br>
-<a href="https://github.com/rstoyanchev/spring-mvc-31-demo/tree/master/src/main/java/org/springframework/samples/mvc31/crudcontroller"><code>org.springframework.samples.mvc31.crudcontroller</code></a></br></p>
-</div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="uri-variables/slides/5">
-<h1>Path Variables</h1>
-
-<h1>In Rendering</h1>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="uri-variables/slides/3">
+<h1>Path Variables In Views</h1>
 
 <ul>
-<li>Path variables merged in the model</li>
-<li>Prior to rendering</li>
-<li>Individal <code>View</code> types can opt out
-
-<ul>
-<li><code>MappingJacksonJsonView</code></li>
-<li><code>MarshallingView</code></li>
-</ul>
-</li>
+<li><code>@PathVariable</code> values</li>
+<li>merged into the model before rendering</li>
+<li>Individal <code>View</code> types <em>"opt out"</em></li>
+<li>E.g. <code>MappingJacksonJsonView</code>, <code>MarshallingView</code></li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content small" ref="uri-variables/slides/6">
+</div><div class="slide" data-transition="none"><div class="content small" ref="uri-variables/slides/4">
 <h1>Example</h1>
 
 <pre class="sh_java"><code>
 
-@RequestMapping("/develop/apps/edit/{slug}")
+@RequestMapping("/apps/edit/{slug}")
+public String editForm(@PathVariable String slug){
 
+
+
+}</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content small" ref="uri-variables/slides/5">
+<h1>Example</h1>
+
+<pre class="sh_java"><code>
+
+@RequestMapping("/apps/edit/{slug}")
 public String editForm(@PathVariable String slug){
 
     // No need to add "slug" to the model
-    // It will be merged in the model
 
 }</code></pre></div>
-</div><div class="slide" data-transition="none"><div class="content smaller" ref="uri-variables/slides/7">
-<h1>URI Variables</h1>
-
-<h1>In Redirect Strings</h1>
-
-<pre class="sh_java"><code>
-    @RequestMapping(
-        value="/{group}/{year}/{month}/{slug}/rooms",
-        method=RequestMethod.POST)
-
-    public String createRoom() {
-
-        // No need to add "group"/"year"/.. to the model
-        // Will be available for the redirect string
-
-        return "redirect:/{group}/{year}/{month}/{slug}";
-    }</code></pre></div>
-</div><div class="slide" data-transition="none"><div class="content subsection bullets smaller" ref="redirect/slides/1">
-<h1>Agenda</h1>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="uri-variables/slides/6">
+<h1><code>"redirect:"</code> &amp; URI Vars</h1>
 
 <ul>
-<li>Code-based Config</li>
-<li>@MVC Support Classes</li>
-<li>Consumes &amp; Produces</li>
-<li>URI Variables</li>
-<li><strong>Redirect Scenarios</strong></li>
-<li>UriComponentsBuilder</li>
-<li>Multipart Requests</li>
+<li>Redirect string treated as URI template</li>
+<li>Expanded with model values</li>
+<li>Also with current request URI vars</li>
+<li>Expanded variables are encoded</li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content small" ref="redirect/slides/2">
+</div><div class="slide" data-transition="none"><div class="content small" ref="uri-variables/slides/7">
+<h1>Example</h1>
+
+<pre class="sh_java"><code>
+@RequestMapping(
+    value="/{year}/{month}/{slug}/rooms",
+    method=RequestMethod.POST)
+
+public String createRoom() {
+
+
+
+
+    return "redirect:/{year}/{month}/{slug}";
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content small" ref="uri-variables/slides/8">
+<h1>Example</h1>
+
+<pre class="sh_java"><code>
+@RequestMapping(
+    value="/{year}/{month}/{slug}/rooms",
+    method=RequestMethod.POST)
+
+public String createRoom() {
+
+    // No need to add "year", "month", &amp; "slug"
+
+
+    return "redirect:/{year}/{month}/{slug}";
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content small" ref="uri-variables/slides/9">
+<h1>Example</h1>
+
+<pre class="sh_java"><code>
+@RequestMapping(
+    value="/{year}/{month}/{slug}/rooms",
+    method=RequestMethod.POST)
+
+public String createRoom() {
+
+    // No need to add "year", "month", &amp; "slug"
+    // They will be available to the view
+
+    return "redirect:/{year}/{month}/{slug}";
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="uri-variables/slides/10">
+<h1>Model Attributes &amp;</h1>
+
+<h1>URI Vars</h1>
+
+<ul>
+<li>A URI variable can be used to instantiate a <code>@ModelAttribute</code> argument</li>
+<li>If the names match and there is a registered <code>Converter&lt;String, Account&gt;</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content small" ref="uri-variables/slides/11">
+<h1>Example</h1>
+
+<pre class="sh_java"><code>
+
+@RequestMapping(value="/{account}", 
+                method = RequestMethod.PUT)
+
+public String update(
+           @ModelAttribute Account account) {
+
+}</code></pre></div>
+</div><div class="slide" data-transition="none">
+  <div class="content" ref="uri-variables/slides/12">
+<h1>Demo</h1>
+
+<br><br>
+
+
+<p><a href="https://github.com/rstoyanchev/spring-mvc-31-demo">https://github.com/rstoyanchev/spring-mvc-31-demo</a></p>
+
+<br><br>
+
+
+<p><em>CRUD Controller:</em>
+<a href="https://github.com/rstoyanchev/spring-mvc-31-demo/tree/master/src/main/java/org/springframework/samples/mvc31/crudcontroller"><code>org.springframework.samples.mvc31.crudcontroller</code></a></p></br>
+</br>
+</br></br></div>
+</div><div class="slide" data-transition="none"><div class="content subsection" ref="redirect/slides/1">
+<h1>Redirect Attributes</h1></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="redirect/slides/2">
+<h1><code>"redirect:"</code> &amp; The Model</h1>
+
+<ul>
+<li>Redirect string can be URI template</li>
+<li>Expanded from model attrs</li>
+<li>Remaining attrs appended to query</li>
+<li>But only if they're simple type</li>
+<li>.. works but may lead to surprises</li>
+</ul>
+
+
+<p class="notes">Example surprises ROO-2158, SPR-6796</p></div>
+</div><div class="slide" data-transition="none"><div class="content small" ref="redirect/slides/3">
 <h1>What will the redirect URL be?</h1>
 
 <pre class="sh_java"><code>
+
 @Controller
-@SessionAttributes("foo")
+public class SomeController {
+
+
+
+
+
+
+    @RequestMapping("/path")
+    public String save(Model model) {
+        // ...
+        return "redirect:/action";
+    }
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content small" ref="redirect/slides/4">
+<h1>What will the redirect URL be?</h1>
+
+<pre class="sh_java"><code>
+
+@Controller
 public class SomeController {
 
     @ModelAttribute
     public void populate(Model model) {
 
-        // ...
     }
 
     @RequestMapping("/path")
     public String save(Model model) {
-
         // ...
-
         return "redirect:/action";
     }
 }</code></pre></div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="redirect/slides/3">
-<h1>Answer:</h1>
+</div><div class="slide" data-transition="none"><div class="content small" ref="redirect/slides/5">
+<h1>What will the redirect URL be?</h1>
 
-<h2>(Up until Spring 3.1)</h2>
+<pre class="sh_java"><code>
 
-<ul>
-<li>Depends on the content of the model</li>
-<li>Simple type attrs appended to query</li>
-<li>May lead to surprises</li>
-</ul>
+@Controller
+public class SomeController {
 
+    @ModelAttribute
+    public void populate(Model model) {
+        model.addAttribute(..);
+    }
 
-<p class="notes">Example surprises ROO-2158, SPR-6796</p></div>
-</div><div class="slide" data-transition="none"><div class="content smaller" ref="redirect/slides/4">
+    @RequestMapping("/path")
+    public String save(Model model) {
+        // ...
+        return "redirect:/action";
+    }
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content small" ref="redirect/slides/6">
+<h1>What will the redirect URL be?</h1>
+
+<pre class="sh_java"><code>
+@SessionAttributes(..)
+@Controller
+public class SomeController {
+
+    @ModelAttribute
+    public void populate(Model model) {
+        model.addAttribute(..);
+    }
+
+    @RequestMapping("/path")
+    public String save(Model model) {
+        // ...
+        return "redirect:/action";
+    }
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content small" ref="redirect/slides/7">
 <h1>What Usually Makes Sense ...</h1>
 
 <pre class="sh_java"><code>
 @RequestMapping("/path")
-public String save(Foo foo, Errors errors, Model model) {
+public String save(Foo foo, Errors errors, 
+                   Model model) {
 
     if (errors.hasErrors()) {
-      // Re-render using "default" model
       return "edit";
     }
 
-    // 1. Clear the model content!
 
-    model.asMap().clear()
 
-    // 2. Add attributes for redirect
+
+
+
+
 
     return "redirect:/action";
 }</code></pre></div>
-</div><div class="slide" data-transition="none"><div class="content smaller" ref="redirect/slides/5">
-<h1>Spring 3.1 Redirect Example</h1>
+</div><div class="slide" data-transition="none"><div class="content small" ref="redirect/slides/8">
+<h1>What Usually Makes Sense ...</h1>
+
+<pre class="sh_java"><code>
+@RequestMapping("/path")
+public String save(Foo foo, Errors errors, 
+                   Model model) {
+
+    if (errors.hasErrors()) {
+      return "edit";
+    }
+
+    // Clear the model for redirect scenario
+    model.asMap().clear()
+
+
+
+
+
+    return "redirect:/action";
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content small" ref="redirect/slides/9">
+<h1>What Usually Makes Sense ...</h1>
+
+<pre class="sh_java"><code>
+@RequestMapping("/path")
+public String save(Foo foo, Errors errors, 
+                   Model model) {
+
+    if (errors.hasErrors()) {
+      return "edit";
+    }
+
+    // Clear the model for redirect scenario
+    model.asMap().clear()
+
+    // Add attributes for redirect
+    model.addAttribute("foo", foo.getId());
+    model.addAttribute("queryParam", "value");
+
+    return "redirect:/action/{foo}";
+}</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="redirect/slides/10">
+<h1><code>RedirectAttributes</code></h1>
+
+<ul>
+<li>A new method argument type</li>
+<li>Used to select attrs for redirect scenario</li>
+<li>Initially empty</li>
+<li>Used if controller redirects.. instead of model</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content smaller" ref="redirect/slides/11">
+<h1>Example</h1>
 
 <pre class="sh_java"><code>
     @RequestMapping("/path")
-    public String save(Entity entity, Errors errors, 
+    public String save(Foo foo, Errors errors, 
                        RedirectAttributes redirectAttrs){
 
       if (errors.hasErrors()) {
-        // Re-render form using "default" model
         return "edit"; 
       }
 
-      // ...
-
-      redirectAttrs.addAttribute("id", 123);
-      redirectAttrs.addAttribute("date", new Date());
+      redirectAttrs.addAttribute("id", foo.getId);
+      redirectAttrs.addAttribute("queryParam", "value");
 
       return "redirect:/action/{id}";
 
     }</code></pre></div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="redirect/slides/6">
-<h1><code>RedirectAttributes</code></h1>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="redirect/slides/12">
+<h1>Attribute Formatting</h1>
 
 <ul>
-<li>Used <strong>only if</strong> controller redirects</li>
-<li>Initially empty</li>
-<li>Attributes formatted with DataBinder</li>
-<li>Intended for use in redirect URL</li>
-<li>... i.e. as URI vars or query params</li>
+<li><code>RedirectAttributes</code> formats added values with a <code>DataBinder</code></li>
+<li>Makes them eligible for use in the URL</li>
+<li>Recall only simple type attributes appended to query</li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="redirect/slides/7">
+</div><div class="slide" data-transition="none"><div class="content smaller" ref="redirect/slides/13">
+<h1>Example</h1>
+
+<pre class="sh_java"><code>
+    @RequestMapping("/path")
+    public String save(Foo foo, Errors errors, 
+                       RedirectAttributes redirectAttrs){
+
+
+
+
+      redirectAttrs.addAttribute("date", new Date());
+
+      return "redirect:/action";
+
+    }</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content smaller" ref="redirect/slides/14">
+<h1>Example</h1>
+
+<pre class="sh_java"><code>
+    @RequestMapping("/path")
+    public String save(Foo foo, Errors errors, 
+                       RedirectAttributes redirectAttrs){
+
+      // "date" is formatted
+      // RedirectView will append it as query param
+
+      redirectAttrs.addAttribute("date", new Date());
+
+      return "redirect:/action";
+
+    }</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="redirect/slides/15">
+<h1>Using <code>Model</code> and <code>RedirectAttributes</code></h1>
+
+<ul>
+<li>Both can be used.. in one method</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content smaller" ref="redirect/slides/16">
+<h1>Example</h1>
+
+<pre class="sh_java"><code>
+    @RequestMapping
+    public String search(String text, 
+                         Model model,
+                         RedirectAttributes redirectAttrs){
+
+        // Use Model if not redirecting
+        // E.g. Ajax request
+
+        // Use RedirectAttrs if redirecting
+
+    }</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content smaller" ref="redirect/slides/17">
+<h1>What About This?</h1>
+
+<pre class="sh_java"><code>
+  @RequestMapping("/path")
+  public String save(Foo foo, Errors errors){
+
+
+      // Will the "default" model be used?
+
+      return "redirect:/action";
+
+  }</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets small" ref="redirect/slides/18">
+<h1><code>"IgnoreDefaultModelOnRedirect"</code> Property</h1>
+
+<ul>
+<li><code>RequestMappingHandlerAdapter</code></li>
+<li>Effectively disables use of "default" model on redirect</li>
+<li>Set to <code>"true"</code> in MVC namespace &amp; Java config</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content subsection" ref="redirect/slides/19">
+<h1>Flash Attributes</h1></div>
+</div><div class="slide" data-transition="none"><div class="content incremental" ref="redirect/slides/20">
 <h1>Flash Attributes</h1>
 
 <ul>
-<li>Another kind of redirect attributes</li>
-<li>But without impact on the URL</li>
-<li>Temporily stored in the session</li>
-<li>Removed immediately after the redirect</li>
+<li>Attrs temporily stored in the session</li>
+<li>Before a redirect</li>
+<li>Removed immediately after</li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content smaller" ref="redirect/slides/8">
-<h1>Flash Attributes Example</h1>
+</div><div class="slide" data-transition="none"><div class="content smaller" ref="redirect/slides/21">
+<h1>Example</h1>
 
 <pre class="sh_java"><code>
   @RequestMapping("/path")
   public String save(Entity entity, Errors errors, 
                      RedirectAttributes redirectAttrs){
 
-    if (errors.hasErrors()) {
-      return "edit"; 
-    }
+    // ...
 
-    redirectAttrs.addFlashAttribute("message", "Success!");
 
-    // Attribute "message" will appear in model of
-    // the controller after the redirect
+
+
+
 
     return "redirect:/action";
   }</code></pre></div>
-</div><div class="slide" data-transition="none"><div class="content code" ref="redirect/slides/9">
+</div><div class="slide" data-transition="none"><div class="content smaller slide=fade" ref="redirect/slides/22">
+<h1>Example</h1>
+
+<pre class="sh_java"><code>
+  @RequestMapping("/path")
+  public String save(Entity entity, Errors errors, 
+                     RedirectAttributes redirectAttrs){
+
+    // ...
+
+    redirectAttrs.addFlashAttribute("message", "Success!");
+
+
+
+
+    return "redirect:/action";
+  }</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content smaller slide=fade" ref="redirect/slides/23">
+<h1>Example</h1>
+
+<pre class="sh_java"><code>
+  @RequestMapping("/path")
+  public String save(Entity entity, Errors errors, 
+                     RedirectAttributes redirectAttrs){
+
+    // ...
+
+    redirectAttrs.addFlashAttribute("message", "Success!");
+
+    // Attribute "message" will be available 
+    // in model of controller following the redirect
+
+    return "redirect:/action";
+  }</code></pre></div>
+</div><div class="slide" data-transition="none">
+  <div class="content" ref="redirect/slides/24">
 <h1>Demo</h1>
+
+<br>
+
 
 <p><a href="https://github.com/SpringSource/spring-mvc-showcase">https://github.com/SpringSource/spring-mvc-showcase</a></p>
 
-<p><a href="https://github.com/SpringSource/spring-mvc-showcase/blob/master/src/main/java/org/springframework/samples/mvc/form/FormController.java"><strong><code>FormController.java</code></strong></a></p></div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="redirect/slides/10">
-<h1>Flash Attributes</h1>
+<br>
+
+
+<p><a href="https://github.com/SpringSource/spring-mvc-showcase/blob/master/src/main/java/org/springframework/samples/mvc/form/FormController.java">FormController.java</a></p></br>
+</br>
+</div>
+</div><div class="slide" data-transition="none"><div class="content incremental" ref="redirect/slides/25">
+<h1>Working with Flash Attributes</h1>
 
 <ul>
-<li>Zero configuration required</li>
-<li>Multi-tiered support</li>
-<li>Use <code>RedirectAttributes</code> within @MVC</li>
-<li>Or access <code>FlashMap</code> directly elsewhere</li>
+<li>Layered support</li>
+<li>In @MVC use <code>RedirectAttributes</code></li>
+<li>Elsewhere access <code>FlashMap</code> directly</li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content small" ref="redirect/slides/11">
-<h1>Direct Access To FlashMap</h1>
+</div><div class="slide" data-transition="none"><div class="content small" ref="redirect/slides/26">
+<h1>Example</h1>
+
+<h2><em>(Some Code Not In an @Controller)</em></h2>
 
 <pre class="sh_java"><code>
-// Some code not in @Controller
-// Save attributes prior to a redirect..
+// Before redirect
 
 FlashMap flashMap = 
   RequestContextUtils.getOutputFlashMap(request);
 
-flashMap.put("message", "Success!");</code></pre></div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="redirect/slides/12">
-<h1>Flash Attributes &amp;</h1>
 
-<h1>Concurrency</h1>
+
+
+
+
+// ..</code></pre></div>
+</div><div class="slide" data-transition="fade"><div class="content small" ref="redirect/slides/27">
+<h1>Example</h1>
+
+<h2><em>(Some Code Not In an @Controller)</em></h2>
+
+<pre class="sh_java"><code>
+// Before redirect
+
+FlashMap flashMap = 
+  RequestContextUtils.getOutputFlashMap(request);
+
+// After redirect
+
+Map&lt;String, String&gt; map = 
+  RequestContextUtils.getOutputFlashMap(request);
+
+// ..</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="redirect/slides/28">
+<h1>Concurrency Issues</h1>
 
 <ul>
-<li>A redirect is relatively short lived</li>
-<li>Another async request may come in</li>
-<li>E.g. polling, resource request, etc.</li>
-<li>FlashMap may be consumed too early</li>
+<li>Redirects are short lived</li>
+<li>But another async request may interfere</li>
+<li>E.g. polling, resource request, ..</li>
+<li>Flash consumed too early</li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="redirect/slides/13">
-<h1>Solution: Set Request Info</h1>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="redirect/slides/29">
+<h1>Target Request Info</h1>
 
-<h1>on FlashMap</h1>
+<h1>On <code>FlashMap</code></h1>
 
 <ul>
 <li><code>setTargetRequestPath(String)</code></li>
 <li><code>addTargetRequestParam(String,String)</code></li>
-<li>Automatically done when using <code>"redirect:"</code> or <code>RedirectView</code></li>
+<li><code>RedirectView</code> sets these</li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content subsection bullets smaller" ref="uri-components-builder/slides/1">
-<h1>Agenda</h1>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="redirect/slides/30">
+<h1><code>FlashMapManager</code></h1>
 
 <ul>
-<li>Code-based Config</li>
-<li>@MVC Support Classes</li>
-<li>Consumes &amp; Produces</li>
-<li>URI Variables</li>
-<li>Redirect Scenarios</li>
-<li><strong>UriComponentsBuilder</strong></li>
-<li>Multipart Requests</li>
+<li>Matches requests to <code>FlashMap</code> instances</li>
+<li>Stores instances in HTTP session</li>
+<li>Instantiated in <code>DispatcherServlet</code></li>
+<li>Discovered by name <code>"flashMapManager"</code></li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="uri-components-builder/slides/2">
-<h1>Building a URI</h1>
+</div><div class="slide" data-transition="none"><div class="content subsection" ref="uri-components-builder/slides/1">
+<h1>UriComponentsBuilder</h1></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="uri-components-builder/slides/2">
+<h1>How To Build a URI</h1>
 
 <ul>
-<li><code>UriTemplate</code> the main option in Spring 3.0</li>
-<li>Works but some challenges</li>
-<li>Can not encode all URI components fully</li>
+<li><code>UriTemplate</code></li>
+<li>Encoding limitations</li>
 <li>Not very flexible</li>
+<li>Nor re-usable</li>
 </ul>
 
 
 <p class="notes">SPR-8662, SPR-8403, path segments &amp; query params cannot be encoded fully</p></div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="uri-components-builder/slides/3">
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="uri-components-builder/slides/3">
 <h1><code>UriComponents</code></h1>
 
-<h2>(Spring 3.1)</h2>
-
 <ul>
-<li>A container for URI components</li>
-<li>Created from String, templated values</li>
-<li>Has expand and encode operations</li>
-<li>Immutable</li>
+<li>Immutable container of URI components</li>
+<li>Provides getters</li>
+<li>Components may contain URI vars</li>
+<li>Expand/encode operations</li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content small incremental" ref="uri-components-builder/slides/4">
-<h1><code>UriComponentsBuilder</code></h1>
-
-<h2>(Spring 3.1)</h2>
+</div><div class="slide" data-transition="none"><div class="content small incremental bullets" ref="uri-components-builder/slides/4">
+<h1>How To Create <code>UriComponents</code></h1>
 
 <ul>
-<li>A builder for UriComponents</li>
-<li><em><code>UriComponentsBuilder.fromPath(String)</code></em></li>
-<li>... with chained API methods</li>
-<li><em><code>UriComponentsBuilder.fromUriString(String)</code></em></li>
-<li>... equivalent to <code>new UriTemplate(String)</code></li>
+<li><code>UriComponentsBuilder.fromPath(String)</code></li>
+<li><code>UriComponentsBuilder.fromUriString(String)</code></li>
+<li>Plus chained builder-style methods</li>
 </ul>
 </div>
 </div><div class="slide" data-transition="none"><div class="content small" ref="uri-components-builder/slides/5">
-<h1>Example: URI Components</h1>
+<h1>Example</h1>
 
 <pre class="sh_java"><code>
-    UriComponents uriComponents = 
-        UriComponentsBuilder.fromPath("path")
-            .queryParam("id", "A B")
-            .fragment("a")
-            .build()
-            .encode();
+
 
     UriComponents uriComponents = 
-        UriComponentsBuilder.fromPath("path")
-            .query("id={id}")
+        UriComponentsBuilder.fromPath("{path}")
+            .queryParam("id", 123)
             .fragment("a")
             .build()
-            .expand("A B")
+            .expand("/some path")
             .encode();</code></pre></div>
-</div><div class="slide" data-transition="none"><div class="content small" ref="uri-components-builder/slides/6">
-<h1>Example: URI Template String</h1>
+</div><div class="slide" data-transition="fade"><div class="content small" ref="uri-components-builder/slides/6">
+<h1>Example</h1>
 
-<pre class="sh_java"><code>
-  UriComponents uriComponents = 
-      UriComponentsBuilder
-        .fromUriString("path?id={id}#a")
-        .build()
-        .expand("A B")
-        .encode();
+<pre class="sh_java"><code>    // Full control over every step
+    // vs all in one shot
 
-  MultiValueMap&lt;String, String&gt; queryMap = 
-      uriComponents.getQueryParams();
-
-  assertEquals("path", uriComponents.getPath();
-  assertEquals("A%20B", queryMap.get("id"));
-  assertEquals("a", uriComponents.getFragment();</code></pre></div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="uri-components-builder/slides/7">
-<h1><code>UriTemplate &amp; UriUtils</code></h1>
+    UriComponents uriComponents = 
+        UriComponentsBuilder.fromPath("{path}")
+            .queryParam("id", 123)
+            .fragment("a")
+            .build()
+            .expand("/some path")
+            .encode();</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="uri-components-builder/slides/7">
+<h1><code>UriTemplate &amp; UriUtils</code> ?</h1>
 
 <ul>
 <li>Still available</li>
-<li>Both delegate to <code>UriComponents</code> and <code>UriComponentsBuilder</code></li>
+<li>Both use <code>UriComponents</code> internally</li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content small" ref="uri-components-builder/slides/8">
-<h1>Redirect URLs</h1>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="uri-components-builder/slides/8">
+<h1>Redirect URL &amp; <code>UriComponentsBuilder</code></h1>
 
-<h1>with <code>UriComponentsBuilder</code></h1>
+<ul>
+<li>An alternative to using <code>"redirect:"</code></li>
+<li>Max control over redirect URL</li>
+<li>Useful in <code>@ResponseBody</code> methods too</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content small" ref="uri-components-builder/slides/9">
+<h1>Example</h1>
 
 <pre class="sh_java"><code>
 @RequestMapping
@@ -818,34 +1425,22 @@ public String handle() {
         .encode();
 
   return "redirect:" + redirectUri.toUriString();
+
 }</code></pre></div>
-</div><div class="slide" data-transition="none"><div class="content subsection bullets smaller" ref="multipart-requests/slides/1">
-<h1>Agenda</h1>
-
-<ul>
-<li>Code-based Config</li>
-<li>@MVC Support Classes</li>
-<li>Consumes &amp; Produces</li>
-<li>URI Variables</li>
-<li>Redirect Scenarios</li>
-<li>UriComponentsBuilder</li>
-<li><strong>Multipart Requests</strong></li>
-</ul>
-</div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="multipart-requests/slides/2">
-<h1>Servlet 3.0 Multipart</h1>
-
-<h1>Request Parsing</h1>
+</div><div class="slide" data-transition="none"><div class="content subsection" ref="multipart-requests/slides/1">
+<h1>Multipart Requests</h1></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="multipart-requests/slides/2">
+<h1>Servlet 3.0 Support</h1>
 
 <ul>
 <li><code>StandardServletMultipartResolver</code></li>
-<li>Use of above resolver is optional</li>
-<li>Required only if using <code>MultipartFile</code></li>
-<li>May use <code>javax.servlet.http.Part</code> instead</li>
+<li>Use of resolver is optional</li>
+<li>Required only with use of <code>MultipartFile</code></li>
+<li>Not for <code>javax.servlet.http.Part</code> args</li>
 </ul>
 </div>
 </div><div class="slide" data-transition="none"><div class="content incremental smaller" ref="multipart-requests/slides/3">
-<h1>Multipart Request Examples</h1>
+<h1><code>MultipartFile</code> Example</h1>
 
 <pre class="sh_java"><code>
 @RequestMapping(method = RequestMethod.POST)
@@ -855,9 +1450,12 @@ public void create(
     InputStream in = file.getInputStream();
 
     // ...
-}
 
+}</code></pre></div>
+</div><div class="slide" data-transition="scrollLeft"><div class="content incremental smaller" ref="multipart-requests/slides/4">
+<h1><code>javax.servlet.http.Part</code> Example</h1>
 
+<pre class="sh_java"><code>
 @RequestMapping(method = RequestMethod.POST)
 public void create(
         @RequestParam("file") Part part){
@@ -865,39 +1463,18 @@ public void create(
     InputStream in = part.getInputStream();
 
     // ...
+
 }</code></pre></div>
-</div><div class="slide" data-transition="none"><div class="content incremental" ref="multipart-requests/slides/4">
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="multipart-requests/slides/5">
 <h1><code>@RequestPart</code></h1>
 
 <ul>
-<li>Like <code>@RequestBody</code> but targets the part of a <code>"multipart/form-data"</code> request</li>
-<li>The body of the part is read with an <code>HttpMessageConverter</code></li>
+<li>Like <code>@RequestBody</code> but for the part of a <code>"multipart/form-data"</code> request</li>
+<li>Request part content processed with <code>HttpMessageConverter</code></li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none"><div class="content smaller" ref="multipart-requests/slides/5">
-<h1>Request with</h1>
-
-<h1><strong>JSON</strong> Part &amp; <strong>Binary File</strong> Part</h1>
-
-<pre><code>POST /someUrl
-Content-Type: multipart/mixed
-
---edt7Tfrdusa7r3lNQc79vXuhIIMlatb7PQg7Vp
-Content-Disposition: form-data; name="meta-data"
-Content-Type: application/json; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-{
-  "name": "value"
-}
---edt7Tfrdusa7r3lNQc79vXuhIIMlatb7PQg7Vp
-Content-Disposition: form-data; name="file"; filename="file.properties"
-Content-Type: text/xml
-Content-Transfer-Encoding: 8bit
-... File Data ...
-</code></pre></div>
 </div><div class="slide" data-transition="none"><div class="content smaller" ref="multipart-requests/slides/6">
-<h1>Example: <code>@RequestPart</code></h1>
+<h1>Example</h1>
 
 <pre class="sh_java"><code>
 
@@ -912,49 +1489,55 @@ public ResponseEntity&lt;Object&gt; void create(
    // ...
 
 } </code></pre></div>
-</div><div class="slide" data-transition="none"><div class="content incremental small" ref="multipart-requests/slides/7">
+</div><div class="slide" data-transition="none"><div class="content smaller" ref="multipart-requests/slides/7">
+<h1>Multipart Request with JSON</h1>
+
+<pre><code>POST /someUrl
+Content-Type: multipart/mixed
+
+--edt7Tfrdusa7r3lNQc79vXuhIIMlatb7PQg7Vp
+Content-Disposition: json-data; name="meta-data"
+Content-Type: application/json; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+{
+  "name": "value"
+}
+--edt7Tfrdusa7r3lNQc79vXuhIIMlatb7PQg7Vp
+Content-Disposition: form-data; name="file"; filename="file.properties"
+Content-Type: text/xml
+Content-Transfer-Encoding: 8bit
+... File Data ...
+</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets small" ref="multipart-requests/slides/8">
 <h1><code>@Valid</code></h1>
 
 <ul>
-<li>Supported on <code>@RequestBody</code> and <code>@RequestPart</code> args</li>
-<li>... <code>MethodArgumentNotValidException</code> on errors</li>
-<li>Handled by <code>DefaultHandlerExceptionResolver</code></li>
-<li>... <code>SC_BAD_REQUEST</code> (<code>400</code>) response  code</li>
+<li>Supported on <code>@RequestBody</code> &amp; <code>@RequestPart</code> args</li>
+<li>Produces <code>MethodArgumentNotValidException</code></li>
+<li>Handled in <code>DefaultHandlerExceptionResolver</code>.. <code>SC_BAD_REQUEST</code> (<code>400</code>) response  code</li>
 </ul>
 </div>
-</div><div class="slide" data-transition="none">
-  <div class="content subsection" ref="end/slides/1">
-<h1>References</h1>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="end/slides/1">
+<h1>Spring MVC Test Support</h1>
 
-<p><strong>Documentation, Blogs</strong>:</p>
+<ul>
+<li><code>@Controller</code> and <code>RestTemplate</code> tests</li>
+<li>Without ServletContainer</li>
+<li><a href="http://www.springone2gx.com/conference/chicago/2011/10/session?id=24020">"Spring 3.1 and MVC Testing Support"</a></li>
+<li>Friday 10:15</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content incremental bullets" ref="end/slides/2">
+<h1>Spring Config</h1>
 
-<p><a href="http://static.springsource.org/spring/docs/3.1.0.RC1/spring-framework-reference/html/new-in-3.1.html">What's New in Spring 3.1</a><br><br>
-<a href="http://blog.springsource.com/2011/06/13/spring-3-1-m2-spring-mvc-enhancements-2/">
-Spring 3.1 M2: Spring MVC Enhancements</a><br><br/>
-
-<p><strong>Samples:</strong><br><br>
-<a href="https://github.com/rstoyanchev/spring-mvc-31-demo">https://github.com/rstoyanchev/spring-mvc-31-demo</a><br><br>
-<a href="https://github.com/SpringSource/spring-mvc-showcase">https://github.com/SpringSource/spring-mvc-showcase</a><br><br>
-<a href="https://github.com/SpringSource/greenhouse">https://github.com/SpringSource/greenhouse</a><br><br/></br>
-</br>
-</br></br></br></br></br></p></br></br></br></p></div>
-</div><div class="slide" data-transition="none">
-  <div class="content subsection bullets" ref="end/slides/2">
-<h1>Spring 3.1 Continued...</h1>
-
-<br><br><br>
-
-
-<p><em>Wednesday 12:45:</em> <br><br>
-<a href="http://www.springone2gx.com/conference/chicago/2011/10/session?id=24006">Configuration Enhancements in Spring 3.1</a></br>
-
-<br><br>
-
-
-<p><em>Friday 10:15:</em><br><br>
-<a href="http://www.springone2gx.com/conference/chicago/2011/10/session?id=24020">Spring 3.1 and MVC Testing Support</a><br><br/></br>
-</br>
-</br></p></br></br></br></p></br></br></br></div>
+<ul>
+<li>Lots of Java config improvements</li>
+<li>An up-to-date perspective and advice</li>
+<li><a href="http://www.springone2gx.com/conference/chicago/2011/10/session?id=24006">"Configuration Enhancements in Spring 3.1"</a></li>
+<li>Today 12:45</li>
+</ul>
+</div>
 </div><div class="slide" data-transition="none"><div class="content subsection" ref="end/slides/3">
 <h1>Questions?</h1></div>
 </div><div class="slide" data-transition="none"><div class="content subsection" ref="end/slides/4">
